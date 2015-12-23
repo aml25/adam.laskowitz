@@ -49,8 +49,8 @@
 		significantText{
 			font-size:2.25rem;
 			font-weight: 400;
-			opacity:0.95;
-			color:#FC3500;
+			opacity:0.75;
+			color:#000;
 		}
 
 		@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
@@ -85,7 +85,7 @@
 			height:1.75rem !important;
 			margin-left:0.75rem;
 			margin-top:0.75rem;
-			opacity:0.2;
+			opacity:0.1;
 			float:right;
 		}
 
@@ -108,10 +108,23 @@
 
 
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 	<script type="text/javascript">
+		var colors = ["D864DB", "1F8A70", "8ADB39", "FFE11A", "FD7400"];
+
 		$(document).ready(function(){
-			
-		})
+			colorFade();
+			setInterval(colorFade, 3500);
+		});
+
+		function colorFade(){
+			$("significantText").each(function(){
+				var color = colors[Math.round(Math.random()*(colors.length-1))];
+				$(this).animate({
+					"color": "#"+color
+				}, Math.round(Math.random()*3000)+250);
+			});
+		}
 	</script>
 </body>
 </html>
