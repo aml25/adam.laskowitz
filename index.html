@@ -95,7 +95,7 @@
 
 	<main>
 		<section><normalText>Adam Laskowitz designs the future of </normalText><a href="http://openhouse.target.com/"><significantText>consumer IoT</significantText></a><normalText> at Target.</normalText></section>
-		<section><normalText>In the past he has created </normalText><a href="http://www.wired.co.uk/news/archive/2015-01/07/intel-oakley-wearable"><significantText>wearables</significantText></a><normalText>, </normalText><a href="https://www.youtube.com/user/immersivecomputing"><significantText>interactive installations</significantText></a><normalText>, and </normalText><a href="http://www.intelfreepress.com/news/can-big-data-prevent-allergy-attacks/5625/"><significantText>data visualizations</significantText></a><normalText> at Intel.</normalText></section>
+		<section><normalText>In the past he has created </normalText><a href="http://www.oakley.com/radar-pace"><significantText>wearables</significantText></a><normalText>, </normalText><a href="https://www.youtube.com/user/immersivecomputing"><significantText>interactive installations</significantText></a><normalText>, and </normalText><a href="http://www.intelfreepress.com/news/can-big-data-prevent-allergy-attacks/5625/"><significantText>data visualizations</significantText></a><normalText> at Intel.</normalText></section>
 		<section><subText>Adam has a Master of Architecture and Master of Fine Arts from SUNY Buffalo.</subText></section>
 	</main>
 
@@ -110,21 +110,21 @@
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 	<script type="text/javascript">
-		var colors = ["D864DB", "1F8A70", "8ADB39", "FFE11A", "FD7400"];
+		var colors = ["000", "9DBC51", "99BEFF", "B671FF", "4DB3C4", "FF6845", "FF1D79", "3980FF"];
 
-		$(document).ready(function(){
-			colorFade();
-			setInterval(colorFade, 3500);
-		});
+		// $(document).ready(function(){
+		// 	colorFade();
+		// 	setInterval(colorFade, 3500);
+		// });
 
-		function colorFade(){
-			$("significantText").each(function(){
-				var color = colors[Math.round(Math.random()*(colors.length-1))];
-				$(this).animate({
-					"color": "#"+color
-				}, Math.round(Math.random()*3000)+250);
-			});
-		}
+		// function colorFade(){
+		// 	$("significantText").each(function(){
+		// 		var color = colors[Math.round(Math.random()*(colors.length-1))];
+		// 		$(this).animate({
+		// 			"color": "#"+color
+		// 		}, Math.round(Math.random()*8000)+2000);
+		// 	});
+		// }
 	</script>
 </body>
 </html>
