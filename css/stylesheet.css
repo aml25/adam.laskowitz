@@ -22,7 +22,7 @@ section:nth-child(2){
 }
 
 normalText{
-	font-size:1.5em;
+	font-size:2em;
 	opacity: 0.6;
 	font-weight: 300;
 }
@@ -30,6 +30,7 @@ normalText{
 subText{
 	font-weight: 400;
 	opacity: 0.4;
+	font-size:1em;
 }
 
 significantText{
@@ -37,6 +38,7 @@ significantText{
 	font-weight: 400;
 	opacity:0.75;
 	color:#000;
+	text-decoration: underline;
 }
 
 .view-portfolio{
