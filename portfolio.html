@@ -1,0 +1,384 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Adam Laskowitz - Portfolio</title>
+
+	<!-- Core CSS file -->
+	<link rel="stylesheet" href="/Photoswipe/photoswipe.css"> 
+
+	<!-- Skin CSS file (styling of UI - buttons, caption, etc.)
+	     In the folder of skin CSS file there are also:
+	     - .png and .svg icons sprite, 
+	     - preloader.gif (for browsers that do not support CSS animations) -->
+	<link rel="stylesheet" href="/Photoswipe/default-skin/default-skin.css"> 
+
+	<!-- Core JS file -->
+	<script src="/Photoswipe/photoswipe.min.js"></script> 
+
+	<!-- UI JS file -->
+	<script src="/Photoswipe/photoswipe-ui-default.min.js"></script> 
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic' rel='stylesheet' type='text/css'>
+
+	<!-- google analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-48062624-1', 'auto');
+		ga('send', 'pageview');
+	</script>
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="/css/portfolio.css">
+
+	
+</head>
+<body>
+
+	<!-- Root element of PhotoSwipe. Must have class pswp. -->
+	<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+	    <!-- Background of PhotoSwipe. 
+	         It's a separate element as animating opacity is faster than rgba(). -->
+	    <div class="pswp__bg"></div>
+
+	    <!-- Slides wrapper with overflow:hidden. -->
+	    <div class="pswp__scroll-wrap">
+
+	        <!-- Container that holds slides. 
+	            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+	            Don't modify these 3 pswp__item elements, data is added later on. -->
+	        <div class="pswp__container">
+	            <div class="pswp__item"></div>
+	            <div class="pswp__item"></div>
+	            <div class="pswp__item"></div>
+	        </div>
+
+	        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+	        <div class="pswp__ui pswp__ui--hidden">
+
+	            <div class="pswp__top-bar">
+
+	                <!--  Controls are self-explanatory. Order can be changed. -->
+
+	                <div class="pswp__counter"></div>
+
+	                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+	                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+	                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+	                <!-- element will get class pswp__preloader--active when preloader is running -->
+	                <div class="pswp__preloader">
+	                    <div class="pswp__preloader__icn">
+	                      <div class="pswp__preloader__cut">
+	                        <div class="pswp__preloader__donut"></div>
+	                      </div>
+	                    </div>
+	                </div>
+	            </div>
+
+	            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+	                <div class="pswp__share-tooltip"></div> 
+	            </div>
+
+	            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+	            </button>
+
+	            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+	            </button>
+
+	            <div class="pswp__caption">
+	                <div class="pswp__caption__center"></div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+	<main>
+
+	</main>
+
+	<div id="loader"></div>
+
+
+	<script type="text/javascript">
+		var pids = [];
+		var projects = {};
+		var projectAssets = [];
+
+		function loadProjects(){
+			console.log("loading projects");
+			$.getJSON( "data/portfolio.json")
+				.done(function(json){
+					//console.log(json);
+					json.projects.sort(compare);
+					JSON.stringify(json);
+
+					console.log(json);
+
+					projects = json.projects;
+
+					buildDOM(); //BUILD THE DOM, call function
+				})
+				.fail(function( jqxhr, textStatus, error ) {
+					var err = textStatus + ", " + error;
+					console.log( "Request Failed: " + err );
+				})
+		}
+
+		function compare(a, b) {
+			if (a.year > b.year)
+				return -1;
+			if (a.year < b.year)
+				return 1;
+			return 0;
+		}
+
+		function buildDOM(){
+			var $main = $("main");
+			for(var i in projects){
+				var asset = projects[i]["asset-location"]+projects[i]["main-image"];
+
+				var $section = $("<section>");
+				
+				var $imgContainer = $("<div class='img-container' data='"+projects[i].id+"'>")
+				$imgContainer.append("<img src='" + asset + "' />");
+
+				$imgContainer.click(function(e){
+					getProjectAssets($(this).attr("data"));
+				});
+				
+				$section.append($imgContainer);
+				
+				var $textContainer = $("<div class='text-container'>");
+				$textContainer.append("<h2>"+projects[i].title+"</h2>");
+				$textContainer.append("<p>"+projects[i].description+"</p>");
+				$textContainer.append("<p>"+projects[i].team+" | <span class='year'>"+projects[i].year+"</span></p>");
+				$textContainer.append("<p><em>"+projects[i].role+"</em></p>");
+				
+				$section.append($textContainer);
+
+				$main.append($section);
+			}
+		}
+
+		// $("section .img-container").each(function(){
+		// 	$(this).click(function(e){
+		// 		getProjectAssets($(this).attr("data"));
+		// 	});
+		// });
+
+		loadProjects(); //build the index page with hero images
+
+		// var middlePositions = {};
+
+		// $(document).on("scroll", function(){
+		// 	$("section").each(function(i){
+		// 		var container = $($("section")[i]);
+		// 		var scrollTop = $(document).scrollTop();
+		// 		var scrollMiddle = scrollTop + ($(window).height()/2);
+		// 		var containerPosTop = container.offset().top;
+		// 		var containerPosMiddle = containerPosTop + container.height()/2;
+		// 		var distanceFromTop = scrollTop - containerPosTop;
+		// 		var distanceFromMiddle = scrollMiddle - containerPosMiddle;
+
+		// 		var percentFromCenter = 1 - (Math.abs(distanceFromTop) / Math.abs($(window).height()));
+		// 		var percentFromCenterNonAbs = 1 - (distanceFromTop / $(window).height());
+
+		// 		if(percentFromCenter <= 0){
+		// 			percentFromCenter = 0;
+		// 		}
+
+		// 		// console.log("1 - " + Math.abs(middleDistanceFromTop) + " / " + Math.abs(($(window).height()/2)) + " = " + percentFromCenter);
+
+		// 		middlePositions[i] = percentFromCenter;
+
+		// 		container.css("opacity", percentFromCenter);
+				
+		// 		var blur = 10*(1-percentFromCenterNonAbs)
+		// 		container.css("filter", "blur(" +  	(blur) + "px)");
+
+
+		// 		var scale = percentFromCenterNonAbs <= 1 ? 1 : percentFromCenterNonAbs;
+		// 		container.children(".text-container").css("transform", "scale("+(scale)+")");
+
+
+		// 		if(i == 1){
+		// 		console.log("scale: " + scale);
+		// 		console.log("percentFromCenter / 10 = " + percentFromCenter);
+		// 	}
+
+		// 		//container.children(".img-container").css("margin-left", -((1-percentFromCenter)*5)+"%");
+
+		// 		var margin = (percentFromCenterNonAbs-1) * 50;
+		// 		if(margin <= 0){
+		// 			margin = 0;
+		// 		}
+		// 		container.children("div:first").css("margin-bottom", margin+"%");
+
+		// 	});
+
+		// 	//console.log(middlePositions);
+		// })
+		
+
+//------------------------------
+
+		var len;
+		var count;
+		var assets;
+
+		function getProjectAssets(pid){ //pass a project id
+			assets = [];
+
+			$.ajax({
+				url:"/assets/"+pid,
+				success: function(data){
+					$(data).find("a:contains(.jpg), a:contains(.gif)").each(function(i){
+						// will loop through 
+						assets.push({src: $(this).attr("href")});
+					});
+
+					loadAssetSizes();
+				}
+			});
+		}
+
+		function loadAssetSizes(){
+			len = assets.length;
+			count = 0;
+
+			for(i in assets){
+				var i = i;
+
+				var tmpImg = new Image();
+				tmpImg.src=assets[i].src;
+				getAssetSize(i, tmpImg);
+			}
+
+			checkFinishedLoading();
+		}
+
+		function getAssetSize(index, tmpImg){
+			$(tmpImg).one('load',function(){
+				var w = tmpImg.width;
+				var h = tmpImg.height;
+
+				assets[index].w = w;
+				assets[index].h = h;
+
+				count++;
+			});
+		}
+
+		function checkFinishedLoading() {
+			if(count < len) {
+				$("#loader").fadeIn();
+				window.setTimeout(function(){
+					console.log("checking again");
+					checkFinishedLoading();
+				}, 100); /* this checks the flag every 100 milliseconds*/
+			} else {
+				/* do something*/
+				$("#loader").fadeOut();
+				displayPhotos();
+			}
+		}
+
+		function displayPhotos(){
+
+			var pswpElement = document.querySelectorAll('.pswp')[0];
+
+		    var items= assets;
+			    
+			    
+
+			// define options (if needed)
+			var options = {
+			    // optionName: 'option value'
+			    // for example:
+			    index: 0, // start at first slide
+			    history: false,
+			    preload: [1,1],
+			    loadingIndicatorDelay: 0
+			};
+
+			// Initializes and opens PhotoSwipe
+			var gallery = new PhotoSwipe( pswpElement, PhotoSwipeUI_Default, items, options);
+
+
+
+
+
+
+/*ADDED FOR SLIDING ANIMATION USING ARROW BUTTONS*****************/
+	// 	var transitionManager = function() {
+
+	//   // Create var to store slide index
+	//   var currentSlide = options.index;
+
+	//   // Listen for photoswipe change event to re-apply transition class
+	//   gallery.listen('beforeChange', function() {
+
+	//     // Only apply transition class if difference between last and next slide is < 2
+	//     // If difference > 1, it means we are at the loop seam.
+	//     var transition = Math.abs(gallery.getCurrentIndex()-currentSlide) < 2;
+
+	//     // Apply transition class depending on above
+	//     $('.pswp__container').toggleClass('pswp__container_transition', transition);
+
+	//     // Update currentSlide
+	//     currentSlide = gallery.getCurrentIndex();
+	//   });
+	// }
+
+
+
+
+	// 		// Only apply transition manager functionality if mouse
+	// 		if(mouseUsed) {
+	// 		  transitionManager();
+	// 		} else {
+	// 		  gallery.listen('mouseUsed', function(){
+	// 		    mouseUsed = true;
+	// 		    transitionManager();
+	// 		  });
+	// 		}
+
+
+
+			gallery.init();
+		}
+
+
+
+
+
+	// 	var mouseUsed = false;
+	// 	$('body').on('mousedown', '.pswp__scroll-wrap', function(event) {
+	// 	  // On mousedown, temporarily remove the transition class in preparation for swipe.
+	// 	  $(this).children('.pswp__container_transition').removeClass('pswp__container_transition');
+	// 	}).on('mousedown', '.pswp__button--arrow--left, .pswp__button--arrow--right', function(event) {
+	// 	  // Exlude navigation arrows from the above event.
+	// 	  event.stopPropagation();
+	// 	}).on('mousemove.detect', function(event) {
+	// 	  // Detect mouseUsed before as early as possible to feed PhotoSwipe
+	// 	  mouseUsed = true;
+	// 	  $('body').off('mousemove.detect');
+	// 	});
+
+		/*****************ADDED FOR SLIDING ANIMATION USING ARROW BUTTONS*/
+		
+	</script>
+
+</body>
+</html>

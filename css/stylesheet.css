@@ -1,0 +1,97 @@
+/*stylesheet.css*/
+
+html{
+	font-size: 14px;
+	font-family: 'Roboto', sans-serif;
+}
+
+body{
+	margin: 2rem;
+}
+
+main{
+	//margin-left:33%;
+}
+
+section{
+	margin-bottom: 2rem;
+}
+
+section:nth-child(2){
+	font-size:0.85em;
+}
+
+normalText{
+	font-size:1.5em;
+	opacity: 0.6;
+	font-weight: 300;
+}
+
+subText{
+	font-weight: 400;
+	opacity: 0.4;
+}
+
+significantText{
+	font-size:2em;
+	font-weight: 400;
+	opacity:0.75;
+	color:#000;
+}
+
+.view-portfolio{
+	display:inline-block;
+	color: #F44336;
+}
+
+.arrow{
+	margin-left:0;
+	animation-name: bounce;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes bounce {
+    0%   {margin-left:0;}
+    18%  {margin-left:0;}
+    72%  {margin-left:0.5em;}
+    100% {margin-left:0;}
+}
+
+/*landscape*/ 
+@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
+	body{
+		margin: 1rem;
+	}
+
+    main{
+    	margin-left:15%;
+    	margin-right:15%;
+    }
+
+    #ref{
+    	width:1px;
+    }
+}
+/***********/
+
+a{
+	color: inherit; /* no blue colors for links */
+	text-decoration: inherit; /* no underline */
+}
+
+#ref{
+	position: absolute;
+	bottom:0;
+	right:0;
+	margin:1rem !important;
+}
+
+#ref img{
+	width:1.75rem !important;
+	height:1.75rem !important;
+	margin-left:0.75rem;
+	margin-top:0.75rem;
+	opacity:0.1;
+	float:right;
+}
